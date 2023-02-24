@@ -17,9 +17,17 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 
+app.get("/api/get", (req, res) => {
+    const sql = "SELECT * FROM contact_db";
+    db.query(sql, (error, result) => {
+        res.send(result);
+    });
+});
+
+
 app.get("/", (req, res) => {
     const sql =
-     "INSERT INTO contact_db (name, email, contact) VALUES ('rihem', 'rihem@gmail.com', 298159)";
+     "INSERT INTO contact_db (name, email, contact) VALUES ('ahmed', 'ahmed@gmail.com', 987159)";
     db.query(sql, (error, result) => {
         console.log("error", error);
         console.log("result", result);
