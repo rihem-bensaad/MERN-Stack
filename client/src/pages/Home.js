@@ -16,6 +16,17 @@ const Home = () => {
         dataLoad();
     }, []);
 
+
+    const deleteContact = (id) => {
+        if(
+            window.confirm("Are you sure that you want to delete that contact?")
+            ) {
+            axios.delete(`http://localhost:5000/api/delete/${id}`);
+            toast.success("Contact Deleted successfully");
+            setTimeout(() => dataLoad(), 500);
+        }
+    };
+
     return (
         <div>
             <Link to="/addContact">
@@ -43,7 +54,7 @@ const Home = () => {
                                    <Link to={`/update/${item.id}`}>
                                     <button>Edit</button>
                                    </Link> 
-                                   <button>Delete</button>
+                                   <button onClick={() => deleteContact(item.id)}>Delete</button>
                                    <Link to={`/view/${item.id}`}>
                                     <button>View</button>
                                    </Link> 

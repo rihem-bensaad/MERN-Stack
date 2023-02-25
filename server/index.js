@@ -37,6 +37,17 @@ app.post("/api/post", (req, res) => {
 });
 
 
+app.delete("/api/delete/:id", (req, res) => {
+    const { id } = req.params;
+    const sql = "DELETE FROM contact_db WHERE id = ?";
+    db.query(sql, id, (error, result) => {
+        if (error) {
+            console.log(error);
+        }
+    });
+});
+
+
 app.get("/", (req, res) => {
     // const sql =
     //  "INSERT INTO contact_db (name, email, contact) VALUES ('ahmed', 'ahmed@gmail.com', 987159)";
