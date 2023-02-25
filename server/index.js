@@ -48,6 +48,31 @@ app.delete("/api/delete/:id", (req, res) => {
 });
 
 
+app.get("/api/get/:id", (req, res) => {
+    const { id } = req.params;
+    const sql = "SELECT * FROM contact_db WHERE id = ?";
+    db.query(sql, id, (error, result) => {
+        if (error) {
+            console.log(error);
+        }
+        res.send(result)
+    });
+});
+
+
+app.put("/api/update/:id", (req, res) => {
+    const { id } = req.params;
+    const {name, email, contact} = req.body;
+    const sql = "UPDATE contact_db SET name = ?, email = ?, contact = ? WHERE id = ?";
+    db.query(sql, [name, email, contact, id], (error, result) => {
+        if (error) {
+            console.log(error);
+        }
+        res.send(result)
+    });
+});
+
+
 app.get("/", (req, res) => {
     // const sql =
     //  "INSERT INTO contact_db (name, email, contact) VALUES ('ahmed', 'ahmed@gmail.com', 987159)";
