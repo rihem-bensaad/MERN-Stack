@@ -17,14 +17,40 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 
+
+app.post('/api/login', (req, res) => {
+    const { email, password } =  req.body;
+    const sql = "INSERT INTO user_db ( email, password) Values (?, ?)";
+    db.query(sql, [email, password], (err, user) => {
+        if (user) {
+            if(password === user.password) {
+                res.send({message: "Login Sucessfull", user: user})
+            } else {
+                res.send ({message: "Password did't match"})
+            }
+        } else {
+            res.send({message: "User not registered"})
+        }
+    });
+})
+
+
+app.post('/api/register', (req, res) => {
+    const { name, email, password } =  req.body;
+    const sql = "INSERT INTO user_db ( name, email, password) Values (?, ?, ?)";
+    db.query(sql, [name, email, password], (error, result) => {
+        if (err) {
+            console.log(err);
+        }
+    });
+});
+
 app.get("/api/get", (req, res) => {
     const sql = "SELECT * FROM contact_db";
     db.query(sql, (error, result) => {
         res.send(result);
     });
 });
-
-
 
 app.post("/api/post", (req, res) => {
     const {name, email, contact} = req.body;
@@ -73,15 +99,6 @@ app.put("/api/update/:id", (req, res) => {
 });
 
 
-app.get("/", (req, res) => {
-    // const sql =
-    //  "INSERT INTO contact_db (name, email, contact) VALUES ('ahmed', 'ahmed@gmail.com', 987159)";
-    // db.query(sql, (error, result) => {
-    //     console.log("error", error);
-    //     console.log("result", result);
-    //     res.send("Hello Clediss");
-    // });
-});
 
 app.listen(5000, () => {
     console.log("server is running on port 5000")

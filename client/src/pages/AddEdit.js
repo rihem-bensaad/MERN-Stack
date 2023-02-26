@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import {useNavigate, useParams, Link} from "react-router-dom";
-import "./AddEdit.css";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -16,7 +15,7 @@ const AddEdit = () => {
 
     const {name, email, contact} = state;
 
-    const naviate = useNavigate();
+    const navigate = useNavigate();
 
 
     const { id } = useParams();
@@ -55,7 +54,7 @@ const AddEdit = () => {
                 .catch((err) => toast.error(err.response.data));
                 toast.success("Contact Updated successfully!")
             }
-            setTimeout(() => naviate.push("/"), 500);
+            setTimeout(() => navigate.push("/"), 500);
         }
     };
 
