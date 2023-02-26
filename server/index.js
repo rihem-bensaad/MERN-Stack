@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 
 
-app.post('/api/login', (req, res) => {
+app.get('/api/login', (req, res) => {
     const { email, password } =  req.body;
     const sql = "SELECT * from user_db WHERE email=? , password=?";
     db.query(sql, [email, password], (error, user) => {
