@@ -27,7 +27,8 @@ const Register = () => {
       e.preventDefault();
       if(!name || !email || !password) {
           toast.error("please complete your information");
-      } else {
+      } 
+      else {
           if(name || email || password) {
               axios.post("http://localhost:5000/api/register", {
                   name,

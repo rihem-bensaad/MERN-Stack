@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-
+import { toast } from 'react-toastify';
 
 const Login = () => {
 
@@ -21,36 +21,65 @@ const Login = () => {
      }
 
 
-     const login = ({setLoginUser}) => {
-        axios.post("http://localhost:5000/api/login", user)
-        .then(res => {
-            alert(res.data.message)
-            setLoginUser(res.data.user)
-            navigate.push("/Home")
-        })   
-     }
+     const login = e => {
+        e.preventdefault();
 
+        const sendData = {
+            email: user.email,
+            password: user.password
+        }
+        if( !user.email || !user.password) {
+            toast.error("please complete your information");
+        } else {
+            if(user.email || user.password) {
+                axios
+                .post("http://localhost:5000/api/login", sendData)
+                .then(() => {
+                    setUser({email: "", password: ""});
+                })
+                .catch((err) => toast.error(err.response));
+                toast.success("loged in successfullu")
+            }
+            setTimeout(()=> navigate("/Home"), 500);
+        }
+     };
+    
      return (
         <div>
             <form onSubmit={login}>
-                <div>
                     <h1>Login</h1>
 
-                    <input type="email" placeholder="Enter your Email" name='email' 
-                    onChange={handleChange}></input>
+                <div>
+                    <div>Email</div>
+                    <div>
+                        <input type="email" placeholder="Enter your Email" name='email' 
+                        onChange={handleChange} value={user.email}></input>
+                    </div>
+                </div>
 
-                    <input type="password" placeholder="Enter your Password" name='password'
-                    onChange={handleChange}>
-                    </input>
 
-                    <input type="button" value="Login"/>
+                <div>
+                    <div>Password</div>
+                    <div>
+                        <input type="password" placeholder="Enter your Password" name='password'
+                        onChange={handleChange} value={user.password}> 
+                        </input>
+                    </div>
+                </div>
+
+                <div>
+                    <div>
+                        <input type="submit" name="submit" value="Login"/>
+                    </div>
+                </div>
+
+
 
                     <div>or</div>
                     <Link to="/register">
-                    <input type="button" value="Register" />
+                        <input type="button" value="Register" />
                     </Link>
 
-                </div>
             </form>
         </div>
      )
