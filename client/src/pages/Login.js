@@ -33,7 +33,7 @@ const Login = () => {
         } else {
             if(user.email || user.password) {
                 axios
-                .post("http://localhost:5000/api/login", sendData)
+                .get("http://localhost:5000/api/login", sendData)
                 .then(() => {
                     setUser({email: "", password: ""});
                 })
